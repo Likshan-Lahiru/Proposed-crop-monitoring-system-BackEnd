@@ -19,7 +19,8 @@ public class LogEntity implements SuperEntity {
     private String logCode;
     private Date logdate;
     private String LogDetails;
-    private Long ObservedImage;
+    @Column(columnDefinition = "LONGTEXT")
+    private String ObservedImage;
     @OneToMany(mappedBy = "fieldCode")
     private List<FieldEntity> logCodeField;
     @OneToMany(mappedBy = "cropCode")

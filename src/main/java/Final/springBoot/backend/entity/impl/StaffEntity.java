@@ -3,8 +3,9 @@ package Final.springBoot.backend.entity.impl;
 import Final.springBoot.backend.entity.Gender;
 import Final.springBoot.backend.entity.JobRole;
 import Final.springBoot.backend.entity.SuperEntity;
-import Final.springBoot.backend.secure.composite.Address;
-import Final.springBoot.backend.secure.composite.Name;
+
+import Final.springBoot.backend.entity.composite.Address;
+import Final.springBoot.backend.entity.composite.Name;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

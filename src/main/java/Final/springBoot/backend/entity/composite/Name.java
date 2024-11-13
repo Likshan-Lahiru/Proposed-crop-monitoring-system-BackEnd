@@ -1,4 +1,4 @@
-package Final.springBoot.backend.secure.composite;
+package Final.springBoot.backend.entity.composite;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

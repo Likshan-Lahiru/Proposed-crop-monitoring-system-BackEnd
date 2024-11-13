@@ -19,7 +19,7 @@ public class FieldEntity implements SuperEntity {
     @Id
     private String fieldCode;
     private String fieldName;
-    private Point fieldLocation;
+    private int fieldLocation;
     private Double fieldSize;
     @OneToMany(mappedBy = "cropCode")
     private List<CropEntity> cropId;

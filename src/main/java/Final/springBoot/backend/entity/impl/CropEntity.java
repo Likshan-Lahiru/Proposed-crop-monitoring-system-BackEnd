@@ -21,10 +21,10 @@ public class CropEntity implements SuperEntity {
     private String cropCategory;
     private String cropSeason;
     @ManyToOne
-    @JoinColumn(name = "cropId",nullable = false)
-    private FieldEntity fieldEntity;
+    @JoinColumn(name = "fieldCode", nullable = false)
+    private FieldEntity fieldCode;
     @ManyToOne()
-    @JoinColumn(name = "logCode",nullable = false)
-    private LogEntity cropEntitiesCrop;
+    @JoinColumn(name = "logCode", nullable = false)
+    private LogEntity logCode;
 
 }
