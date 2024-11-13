@@ -24,11 +24,10 @@ public class CropServiceIMPL implements CropService {
 
     @Override
     public void saveCrop(CropDto cropDto) {
-        cropDto.setFieldCode("F001");
-        cropDto.setLogCode("L001");
-        System.out.println(cropDto);
+
+
         CropEntity save = cropDao.save(mapping.toCropEntity(cropDto));
-        System.out.println(save);
+
         if ( save == null) {
             throw new DataPersistException();
         }
@@ -37,7 +36,7 @@ public class CropServiceIMPL implements CropService {
 
     @Override
     public List<CropDto> getCropList() {
-        return List.of();
+        return mapping.asCropDtoList(cropDao.findAll());
     }
 
     @Override

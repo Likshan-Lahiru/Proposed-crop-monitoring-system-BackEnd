@@ -21,7 +21,7 @@ public class FieldEntity implements SuperEntity {
     private String fieldName;
     private int fieldLocation;
     private Double fieldSize;
-    @OneToMany(mappedBy = "cropCode")
+    @OneToMany(mappedBy = "field")
     private List<CropEntity> cropId;
     @ManyToMany
     private List<StaffEntity> staffField;
@@ -29,8 +29,8 @@ public class FieldEntity implements SuperEntity {
     private String image1;
     @Column(columnDefinition = "LONGTEXT")
     private String image2;
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "logCodeField",nullable = false)
-    private LogEntity logEntity;
+    private LogEntity logField;
 
 }

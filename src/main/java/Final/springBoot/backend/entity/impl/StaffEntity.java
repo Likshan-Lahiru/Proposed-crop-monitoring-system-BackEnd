@@ -45,7 +45,7 @@ public class StaffEntity implements SuperEntity {
     private List<VehicleEntity> vehicleEntity;
     @Column(columnDefinition = "LONGTEXT")
     private String image;
-    @ManyToOne()
-    @JoinColumn(name = "staffEntitiesStaff",nullable = false)
-    private LogEntity logEntity;
+    @ManyToOne
+    @JoinColumn(name = "logCode",nullable = false)
+    private LogEntity log;
 }

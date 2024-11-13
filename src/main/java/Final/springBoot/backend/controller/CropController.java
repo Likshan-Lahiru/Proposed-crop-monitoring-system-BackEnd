@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/crop")
@@ -97,6 +98,12 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CropDto> getCropList(){
+        return cropService.getCropList();
+    }
+
 
      String convertImage(MultipartFile cropImage) throws IOException {
          byte [] cropImageBytes = cropImage.getBytes();
