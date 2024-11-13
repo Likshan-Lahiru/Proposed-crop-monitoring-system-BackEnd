@@ -1,6 +1,8 @@
 package Final.springBoot.backend.controller;
 
+import Final.springBoot.backend.dao.CropDao;
 import Final.springBoot.backend.dto.impl.CropDto;
+import Final.springBoot.backend.dto.status.CropStatus;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.CropService;
 import Final.springBoot.backend.util.AppUtil;
@@ -21,6 +23,8 @@ public class CropController {
     private CropService cropService;
 
     private CropDto cropDto;
+    @Autowired
+    private CropDao cropDao;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -102,6 +106,11 @@ public class CropController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CropDto> getCropList(){
         return cropService.getCropList();
+    }
+
+    @GetMapping(value = "/{cropCode}")
+    public CropStatus getCropById(@PathVariable("cropCode") String cropCode){
+       return cropService.getCropById(cropCode);
     }
 
 

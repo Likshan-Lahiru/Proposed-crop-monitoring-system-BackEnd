@@ -1,6 +1,6 @@
 package Final.springBoot.backend.dto.impl;
 
-import Final.springBoot.backend.dto.SuperDto;
+import Final.springBoot.backend.dto.status.CropStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Data
 @ToString
-public class CropDto implements SuperDto {
+public class CropDto implements CropStatus {
     private String cropCode;
     private String cropCategory;
     private String cropCommonName;

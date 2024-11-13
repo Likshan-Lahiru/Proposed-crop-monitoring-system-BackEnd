@@ -21,5 +21,5 @@ public class EquipmentEntity {
     private StaffEntity staffEntity;
     @ManyToOne
     @JoinColumn(name = "fieldCode",nullable = false  )
-    private FieldEntity fieldEntity;
+    private FieldEntity field;
 }

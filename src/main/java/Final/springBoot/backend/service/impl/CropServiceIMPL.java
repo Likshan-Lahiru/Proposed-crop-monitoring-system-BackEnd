@@ -1,7 +1,9 @@
 package Final.springBoot.backend.service.impl;
 
+import Final.springBoot.backend.customStatusCode.SelectedCropErrorStatus;
 import Final.springBoot.backend.dao.CropDao;
 import Final.springBoot.backend.dto.impl.CropDto;
+import Final.springBoot.backend.dto.status.CropStatus;
 import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.CropService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -40,8 +43,13 @@ public class CropServiceIMPL implements CropService {
     }
 
     @Override
-    public CropDto getCropById(int cropId) {
-        return null;
+    public CropStatus getCropById(String cropId) {
+        if (cropDao.existsById(cropId)) {
+            CropEntity cropEntity = cropDao.getReferenceById(cropId);
+            return mapping.toCropDto(cropEntity);
+        }else {
+            return new SelectedCropErrorStatus(2,"Crop not found");
+        }
     }
 
     @Override

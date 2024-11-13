@@ -24,16 +24,21 @@ public class StaffEntity implements SuperEntity {
     @Embedded
     private Name name;
     private JobRole staffDesignation;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
     private Date joinedDate;
     private Date DOB;
     @Embedded
     private Address address;
+
     private String contact;
     private String email;
+
     @Enumerated(EnumType.STRING)
     private JobRole jobRole;
+
     @ManyToMany
     @JoinTable(
             name = "staffField",
@@ -41,11 +46,17 @@ public class StaffEntity implements SuperEntity {
             inverseJoinColumns = @JoinColumn(name = "fieldCode")
     )
     private List<FieldEntity> fieldEntity;
+
     @OneToMany(mappedBy = "staffEntity")
     private List<VehicleEntity> vehicleEntity;
+
     @Column(columnDefinition = "LONGTEXT")
     private String image;
+
     @ManyToOne
     @JoinColumn(name = "logCode",nullable = false)
     private LogEntity log;
+  /*  @ManyToOne
+    @JoinColumn(name = "fieldCode",nullable = false)
+    private FieldEntity staff;*/
 }
