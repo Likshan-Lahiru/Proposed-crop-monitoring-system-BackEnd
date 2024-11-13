@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -46,7 +47,14 @@ public class CropServiceIMPL implements CropService {
 
     @Override
     public void updateCrop(String cropId, CropDto cropDto) {
-
+        Optional<CropEntity> byId = cropDao.findById(cropId);
+        if (byId.isPresent()) {
+            byId.get().setCropCategory(cropDto.getCropCategory());
+            byId.get().setCropCommonName(cropDto.getCropCommonName());
+            byId.get().setCropImage(cropDto.getCropImage());
+            byId.get().setCropScientificName(cropDto.getCropScientificName());
+            byId.get().setCropSeason(cropDto.getCropSeason());
+        }
     }
 
     @Override
