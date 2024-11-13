@@ -4,6 +4,7 @@ import Final.springBoot.backend.dao.CropDao;
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.status.CropStatus;
 import Final.springBoot.backend.exception.DataPersistException;
+import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.CropService;
 import Final.springBoot.backend.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,20 @@ public class CropController {
     @GetMapping(value = "/{cropCode}")
     public CropStatus getCropById(@PathVariable("cropCode") String cropCode){
        return cropService.getCropById(cropCode);
+    }
+
+    @DeleteMapping(value = "/{cropCode}")
+    public ResponseEntity<Object> deleteCrop(@PathVariable("cropCode") String cropCode){
+        try {
+            cropService.deleteCrop(cropCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (ItemNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

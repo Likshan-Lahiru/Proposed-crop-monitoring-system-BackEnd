@@ -6,6 +6,7 @@ import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.status.CropStatus;
 import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.exception.DataPersistException;
+import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.CropService;
 import Final.springBoot.backend.util.Mapping;
 import jakarta.transaction.Transactional;
@@ -65,7 +66,15 @@ public class CropServiceIMPL implements CropService {
     }
 
     @Override
-    public void deleteCrop(int cropId) {
+    public void deleteCrop(String cropId) {
+        Optional<CropEntity> existedUser = cropDao.findById(cropId);
+        if(!existedUser.isPresent()){
+            throw new ItemNotFoundException("User with id " + cropId + " not found");
+        }else {
 
+            cropDao.deleteById(cropId);
+
+
+        }
     }
 }
