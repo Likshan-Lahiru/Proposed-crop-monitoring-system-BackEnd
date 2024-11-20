@@ -3,6 +3,7 @@ package Final.springBoot.backend.service.impl;
 import Final.springBoot.backend.dao.FieldDao;
 import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.FieldService;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -43,13 +45,20 @@ public class FieldServiceIMPL implements FieldService {
     }
 
     @Override
-    public CropStatus getFieldById(String cropId) {
+    public CropStatus getFieldById(String fieldId) {
         return null;
     }
 
     @Override
-    public void updateField(String cropId, FieldDto FieldDto) {
-
+    public void updateField(String fieldId, FieldDto FieldDto) {
+        Optional<FieldEntity> byId = fieldDao.findById(fieldId);
+        if (byId.isPresent()) {
+            byId.get().setFieldName(FieldDto.getFieldName());
+            byId.get().setFieldLocation(FieldDto.getFieldLocation());
+            byId.get().setFieldSize(FieldDto.getFieldSize());
+            byId.get().setImage1(FieldDto.getImage1());
+            byId.get().setImage2(FieldDto.getImage2());
+        }
     }
 
     @Override

@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
@@ -42,8 +39,8 @@ public class FieldController {
             fieldDto.setFieldName(fieldName);
             fieldDto.setFieldLocation(Integer.parseInt(fieldLocation));
             fieldDto.setFieldSize(Double.valueOf(fieldSize));
-            fieldDto.setImage1(convertImage(image1));
-            fieldDto.setImage2(convertImage(image2));
+            fieldDto.setImage1(AppUtil.convertImage(image1));
+            fieldDto.setImage2(AppUtil.convertImage(image2));
             fieldDto.setLogCode(logCode);
 
 
@@ -60,11 +57,42 @@ public class FieldController {
 
     }
 
-    public static String convertImage(MultipartFile cropImage) throws IOException {
-        byte [] cropImageBytes = cropImage.getBytes();
-        String base64CropImage = AppUtil.profilePicToBase64(cropImageBytes);
-        return base64CropImage;
+
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping(value = "/{fieldCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> updateField(
+            @RequestPart("fieldCode") String fieldCode,
+            @RequestPart ("fieldName") String fieldName,
+            @RequestPart ("fieldLocation") String fieldLocation,
+            @RequestPart ("fieldSize") String fieldSize,
+            @RequestPart ("image1") MultipartFile image1,
+            @RequestPart ("image2") MultipartFile image2,
+            @RequestPart ("logCode") String logCode
+    ){
+        System.out.println("updateField"+fieldCode);
+        try {
+            FieldDto fieldDto = new FieldDto();
+            fieldDto.setFieldCode(fieldCode);
+            fieldDto.setFieldName(fieldName);
+            fieldDto.setFieldLocation(Integer.parseInt(fieldLocation));
+            fieldDto.setFieldSize(Double.valueOf(fieldSize));
+            fieldDto.setImage1(AppUtil.convertImage(image1));
+            fieldDto.setImage2(AppUtil.convertImage(image2));
+            fieldDto.setLogCode(logCode);
+
+
+            fieldService.updateField(fieldCode,fieldDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
 
 }

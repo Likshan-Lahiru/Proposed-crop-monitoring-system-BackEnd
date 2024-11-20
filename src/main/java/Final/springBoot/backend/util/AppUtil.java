@@ -11,5 +11,9 @@ public class AppUtil {
        return Base64.getEncoder().encodeToString(profilePic);
     }
 
-
+    public static String convertImage(MultipartFile cropImage) throws IOException {
+        byte [] image = cropImage.getBytes();
+        String base64Image = AppUtil.profilePicToBase64(image);
+        return base64Image;
+    }
 }
