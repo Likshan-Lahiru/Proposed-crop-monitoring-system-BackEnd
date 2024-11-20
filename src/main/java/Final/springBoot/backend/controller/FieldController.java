@@ -1,5 +1,6 @@
 package Final.springBoot.backend.controller;
 
+import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.FieldService;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/field")
@@ -91,6 +93,11 @@ public class FieldController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FieldDto> getFieldList(){
+        return fieldService.getFieldList();
     }
 
 

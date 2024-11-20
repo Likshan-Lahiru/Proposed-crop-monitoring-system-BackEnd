@@ -33,4 +33,8 @@ public class Mapping {
     public FieldEntity toFieldEntity(FieldDto fieldDto) {
         return modelMapper.map(fieldDto, FieldEntity.class);
     }
+
+    public List<FieldDto> asFieldDtoList(List<FieldEntity> all) {
+        return modelMapper.map(all, new TypeToken<List<FieldDto>>() {}.getType());
+    }
 }
