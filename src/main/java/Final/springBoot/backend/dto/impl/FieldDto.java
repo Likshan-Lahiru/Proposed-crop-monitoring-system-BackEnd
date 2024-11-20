@@ -13,7 +13,7 @@ import java.util.List;
 public class FieldDto implements SuperDto {
     private String fieldCode;
     private String fieldName;
-    private Point fieldLocation;
+    private int fieldLocation;
     private Double fieldSize;
     private List<CropDto> crops;
     private List<StaffDto> staffField;

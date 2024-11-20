@@ -24,8 +24,7 @@ public class CropController {
     private CropService cropService;
 
     private CropDto cropDto;
-    @Autowired
-    private CropDao cropDao;
+
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,7 +42,7 @@ public class CropController {
         try {
 
 
-            cropDto = new CropDto();
+            CropDto cropDto = new CropDto();
             cropDto.setCropCode(cropCode);
             cropDto.setCropCommonName(cropCommonName);
             cropDto.setCropScientificName(cropScientificName);
@@ -128,11 +127,11 @@ public class CropController {
         }
     }
 
-
-     String convertImage(MultipartFile cropImage) throws IOException {
-         byte [] cropImageBytes = cropImage.getBytes();
-         String base64CropImage = AppUtil.profilePicToBase64(cropImageBytes);
+    public static String convertImage(MultipartFile cropImage) throws IOException {
+        byte [] cropImageBytes = cropImage.getBytes();
+        String base64CropImage = AppUtil.profilePicToBase64(cropImageBytes);
         return base64CropImage;
     }
+
 
 }

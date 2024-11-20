@@ -1,7 +1,9 @@
 package Final.springBoot.backend.util;
 
 import Final.springBoot.backend.dto.impl.CropDto;
+import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.entity.impl.CropEntity;
+import Final.springBoot.backend.entity.impl.FieldEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +28,9 @@ public class Mapping {
 
     public CropDto toCropDto(CropEntity cropEntity) {
         return modelMapper.map(cropEntity, CropDto.class);
+    }
+
+    public FieldEntity toFieldEntity(FieldDto fieldDto) {
+        return modelMapper.map(fieldDto, FieldEntity.class);
     }
 }
