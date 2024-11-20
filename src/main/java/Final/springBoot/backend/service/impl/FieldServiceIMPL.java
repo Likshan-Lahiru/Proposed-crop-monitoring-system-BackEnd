@@ -1,20 +1,17 @@
 package Final.springBoot.backend.service.impl;
 
+
+import Final.springBoot.backend.customStatusCode.SelectedFieldErrorStatus;
 import Final.springBoot.backend.dao.FieldDao;
 import Final.springBoot.backend.dto.impl.FieldDto;
-import Final.springBoot.backend.dto.status.CropStatus;
-import Final.springBoot.backend.entity.impl.CropEntity;
+import Final.springBoot.backend.dto.status.FieldStatus;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.FieldService;
-import Final.springBoot.backend.util.AppUtil;
 import Final.springBoot.backend.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +42,13 @@ public class FieldServiceIMPL implements FieldService {
     }
 
     @Override
-    public CropStatus getFieldById(String fieldId) {
-        return null;
+    public FieldStatus getFieldById(String fieldId) {
+        if (fieldDao.existsById(fieldId)) {
+            FieldEntity fieldEntity = fieldDao.getOne(fieldId);
+            return mapping.toFieldDto(fieldEntity);
+        }else {
+            return new SelectedFieldErrorStatus(2,"Field not found");
+        }
     }
 
     @Override

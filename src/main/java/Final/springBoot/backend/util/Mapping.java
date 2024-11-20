@@ -2,6 +2,7 @@ package Final.springBoot.backend.util;
 
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
+import Final.springBoot.backend.dto.status.FieldStatus;
 import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import org.modelmapper.ModelMapper;
@@ -36,5 +37,9 @@ public class Mapping {
 
     public List<FieldDto> asFieldDtoList(List<FieldEntity> all) {
         return modelMapper.map(all, new TypeToken<List<FieldDto>>() {}.getType());
+    }
+
+    public FieldDto toFieldDto(FieldEntity fieldEntity) {
+        return modelMapper.map(fieldEntity, FieldDto.class);
     }
 }

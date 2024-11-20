@@ -2,6 +2,8 @@ package Final.springBoot.backend.controller;
 
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
+import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.dto.status.FieldStatus;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.FieldService;
 import Final.springBoot.backend.util.AppUtil;
@@ -95,9 +97,15 @@ public class FieldController {
         }
     }
 
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FieldDto> getFieldList(){
         return fieldService.getFieldList();
+    }
+
+    @GetMapping(value = "/{fieldCode}")
+    public FieldStatus getFieldById(@PathVariable("fieldCode") String fieldCode){
+        return fieldService.getFieldById(fieldCode);
     }
 
 
