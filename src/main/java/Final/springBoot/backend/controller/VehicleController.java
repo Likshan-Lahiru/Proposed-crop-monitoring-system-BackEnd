@@ -1,12 +1,15 @@
 package Final.springBoot.backend.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import Final.springBoot.backend.service.VehicleService;
 
 
-@RestController
-@RequestMapping
+
+
 public class VehicleController {
+
+
+    private VehicleService vehicleService;
+
 
 }

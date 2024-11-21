@@ -1,12 +1,13 @@
 package Final.springBoot.backend.service.impl;
 
 
-import Final.springBoot.backend.customStatusCode.SelectedFieldErrorStatus;
+import Final.springBoot.backend.customStatusCode.SelectedErrorStatus;
 import Final.springBoot.backend.dao.FieldDao;
 import Final.springBoot.backend.dto.impl.FieldDto;
-import Final.springBoot.backend.dto.status.FieldStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.exception.DataPersistException;
+import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.FieldService;
 import Final.springBoot.backend.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,12 @@ public class FieldServiceIMPL implements FieldService {
     }
 
     @Override
-    public FieldStatus getFieldById(String fieldId) {
+    public Status getFieldById(String fieldId) {
         if (fieldDao.existsById(fieldId)) {
             FieldEntity fieldEntity = fieldDao.getOne(fieldId);
             return mapping.toFieldDto(fieldEntity);
         }else {
-            return new SelectedFieldErrorStatus(2,"Field not found");
+            return new SelectedErrorStatus(2,"Field not found");
         }
     }
 
@@ -65,6 +66,12 @@ public class FieldServiceIMPL implements FieldService {
 
     @Override
     public void deleteField(String fieldId) {
+
+        Optional<FieldEntity> byId = fieldDao.findById(fieldId);
+        if (!byId.isPresent()) {
+            throw new ItemNotFoundException("User with id " + fieldId + " not found");
+        }
+        fieldDao.deleteById(fieldId);
 
     }
 

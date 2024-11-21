@@ -1,7 +1,7 @@
 package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.dto.impl.LogDto;
-import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.service.LogService;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class LogServiceIMPl implements LogService {
     }
 
     @Override
-    public CropStatus getLogById(String logId) {
+    public Status getLogById(String logId) {
         return null;
     }
 

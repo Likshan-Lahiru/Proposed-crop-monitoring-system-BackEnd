@@ -2,9 +2,10 @@ package Final.springBoot.backend.util;
 
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
-import Final.springBoot.backend.dto.status.FieldStatus;
+import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.entity.impl.FieldEntity;
+import Final.springBoot.backend.entity.impl.StaffEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,9 @@ public class Mapping {
 
     public FieldDto toFieldDto(FieldEntity fieldEntity) {
         return modelMapper.map(fieldEntity, FieldDto.class);
+    }
+
+    public StaffEntity toStaffEntity(StaffDto staffDto) {
+        return modelMapper.map(staffDto, StaffEntity.class);
     }
 }

@@ -1,7 +1,7 @@
 package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.dto.impl.UserDto;
-import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.service.UserService;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class UserServiceIMPL implements UserService {
     }
 
     @Override
-    public CropStatus getUserById(String userId) {
+    public Status getUserById(String userId) {
         return null;
     }
 

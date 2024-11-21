@@ -1,8 +1,9 @@
 package Final.springBoot.backend.controller;
 
+
 import Final.springBoot.backend.dao.CropDao;
 import Final.springBoot.backend.dto.impl.CropDto;
-import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.CropService;
@@ -23,8 +24,6 @@ public class CropController {
     @Autowired
     private CropService cropService;
 
-    private CropDto cropDto;
-
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,23 +37,9 @@ public class CropController {
             @RequestPart ("fieldCode") String fieldCode,
             @RequestPart ("logCode") String logCode
     ){
-        System.out.println("cropCode"+cropCode);
+
         try {
-
-
-            CropDto cropDto = new CropDto();
-            cropDto.setCropCode(cropCode);
-            cropDto.setCropCommonName(cropCommonName);
-            cropDto.setCropScientificName(cropScientificName);
-            cropDto.setCropImage(convertImage(cropImage));
-            cropDto.setCropCategory(cropCategory);
-            cropDto.setCropSeason(cropSeason);
-            cropDto.setFieldCode(fieldCode);
-            cropDto.setLogCode(logCode);
-            cropService.saveCrop(cropDto);
-
-
-
+            cropService.saveCrop(assignValue(cropCode,cropCommonName,cropScientificName,cropCategory,cropImage,cropSeason,fieldCode,logCode));
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
@@ -66,6 +51,8 @@ public class CropController {
 
 
     }
+
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{cropCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -79,20 +66,8 @@ public class CropController {
             @RequestPart ("fieldCode") String fieldCode,
             @RequestPart ("logCode") String logCode
     ){
-        System.out.println("cropCode"+cropCode);
         try {
-
-            cropDto = new CropDto();
-            cropDto.setCropCode(cropCode);
-            cropDto.setCropCommonName(cropCommonName);
-            cropDto.setCropScientificName(cropScientificName);
-            cropDto.setCropImage(convertImage(cropImage));
-            cropDto.setCropCategory(cropCategory);
-            cropDto.setCropSeason(cropSeason);
-            cropDto.setFieldCode(fieldCode);
-            cropDto.setLogCode(logCode);
-
-            cropService.updateCrop(cropCode,cropDto);
+            cropService.updateCrop(cropCode,assignValue(cropCode,cropCommonName,cropScientificName,cropCategory,cropImage,cropSeason,fieldCode,logCode));
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
@@ -109,7 +84,7 @@ public class CropController {
     }
 
     @GetMapping(value = "/{cropCode}")
-    public CropStatus getCropById(@PathVariable("cropCode") String cropCode){
+    public Status getCropById(@PathVariable("cropCode") String cropCode){
        return cropService.getCropById(cropCode);
     }
 
@@ -127,11 +102,21 @@ public class CropController {
         }
     }
 
-    public static String convertImage(MultipartFile cropImage) throws IOException {
-        byte [] cropImageBytes = cropImage.getBytes();
-        String base64CropImage = AppUtil.profilePicToBase64(cropImageBytes);
-        return base64CropImage;
+    private CropDto assignValue(String cropCode, String cropCommonName, String cropScientificName, String cropCategory, MultipartFile cropImage, String cropSeason, String fieldCode, String logCode) throws IOException {
+        CropDto cropDto = new CropDto();
+        cropDto.setCropCode(cropCode);
+        cropDto.setCropCommonName(cropCommonName);
+        cropDto.setCropScientificName(cropScientificName);
+        cropDto.setCropImage(AppUtil.convertImage(cropImage));
+        cropDto.setCropCategory(cropCategory);
+        cropDto.setCropSeason(cropSeason);
+        cropDto.setFieldCode(fieldCode);
+        cropDto.setLogCode(logCode);
+        cropService.saveCrop(cropDto);
+
+        return cropDto;
     }
+
 
 
 }

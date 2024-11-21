@@ -1,7 +1,7 @@
 package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.dto.impl.VehicleDto;
-import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.service.VehicleService;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class VehicleServiceIMPL implements VehicleService {
     }
 
     @Override
-    public CropStatus getVehicleById(String vehicleId) {
+    public Status getVehicleById(String vehicleId) {
         return null;
     }
 

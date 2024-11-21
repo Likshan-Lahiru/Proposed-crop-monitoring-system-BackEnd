@@ -1,7 +1,7 @@
 package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.dto.impl.EquipmentDto;
-import Final.springBoot.backend.dto.status.CropStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.service.EquipmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class EquipmentServiceIMPL implements EquipmentService {
     }
 
     @Override
-    public CropStatus getEquipmentById(String cropId) {
+    public Status getEquipmentById(String cropId) {
         return null;
     }
 

@@ -1,18 +1,20 @@
 package Final.springBoot.backend.dto.impl;
 
-import Final.springBoot.backend.dto.SuperDto;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.Gender;
 import Final.springBoot.backend.entity.JobRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import java.sql.Date;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class StaffDto implements SuperDto {
+public class StaffDto implements Status {
     private String staffId;
     private String firstName;
     private String lastName;

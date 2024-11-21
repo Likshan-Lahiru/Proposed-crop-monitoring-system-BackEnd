@@ -1,10 +1,9 @@
 package Final.springBoot.backend.controller;
 
-import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
-import Final.springBoot.backend.dto.status.CropStatus;
-import Final.springBoot.backend.dto.status.FieldStatus;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.exception.DataPersistException;
+import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.FieldService;
 import Final.springBoot.backend.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,19 +34,8 @@ public class FieldController {
             @RequestPart ("image2") MultipartFile image2,
             @RequestPart ("logCode") String logCode
     ){
-        System.out.println("cropCode"+fieldCode);
         try {
-            FieldDto fieldDto = new FieldDto();
-            fieldDto.setFieldCode(fieldCode);
-            fieldDto.setFieldName(fieldName);
-            fieldDto.setFieldLocation(Integer.parseInt(fieldLocation));
-            fieldDto.setFieldSize(Double.valueOf(fieldSize));
-            fieldDto.setImage1(AppUtil.convertImage(image1));
-            fieldDto.setImage2(AppUtil.convertImage(image2));
-            fieldDto.setLogCode(logCode);
-
-
-            fieldService.saveField(fieldDto);
+            fieldService.saveField(assignValue(fieldCode,fieldName,fieldLocation,fieldSize,image1,image2,logCode));
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
@@ -60,6 +47,7 @@ public class FieldController {
 
 
     }
+
 
 
 
@@ -76,17 +64,7 @@ public class FieldController {
     ){
         System.out.println("updateField"+fieldCode);
         try {
-            FieldDto fieldDto = new FieldDto();
-            fieldDto.setFieldCode(fieldCode);
-            fieldDto.setFieldName(fieldName);
-            fieldDto.setFieldLocation(Integer.parseInt(fieldLocation));
-            fieldDto.setFieldSize(Double.valueOf(fieldSize));
-            fieldDto.setImage1(AppUtil.convertImage(image1));
-            fieldDto.setImage2(AppUtil.convertImage(image2));
-            fieldDto.setLogCode(logCode);
-
-
-            fieldService.updateField(fieldCode,fieldDto);
+            fieldService.updateField(fieldCode,assignValue(fieldCode,fieldName,fieldLocation,fieldSize,image1,image2,logCode));
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
@@ -104,8 +82,34 @@ public class FieldController {
     }
 
     @GetMapping(value = "/{fieldCode}")
-    public FieldStatus getFieldById(@PathVariable("fieldCode") String fieldCode){
+    public Status getFieldById(@PathVariable("fieldCode") String fieldCode){
         return fieldService.getFieldById(fieldCode);
+    }
+
+    @DeleteMapping(value = "/{fieldCode}")
+    public ResponseEntity<Object> deleteField(@PathVariable("fieldCode") String fieldCode){
+        try {
+            fieldService.deleteField(fieldCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (ItemNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private FieldDto assignValue(String fieldCode, String fieldName, String fieldLocation, String fieldSize, MultipartFile image1, MultipartFile image2, String logCode) throws IOException {
+        FieldDto fieldDto = new FieldDto();
+        fieldDto.setFieldCode(fieldCode);
+        fieldDto.setFieldName(fieldName);
+        fieldDto.setFieldLocation(Integer.parseInt(fieldLocation));
+        fieldDto.setFieldSize(Double.valueOf(fieldSize));
+        fieldDto.setImage1(AppUtil.convertImage(image1));
+        fieldDto.setImage2(AppUtil.convertImage(image2));
+        fieldDto.setLogCode(logCode);
+        return fieldDto;
     }
 
 

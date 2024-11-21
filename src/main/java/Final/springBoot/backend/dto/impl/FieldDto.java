@@ -1,17 +1,16 @@
 package Final.springBoot.backend.dto.impl;
 
-import Final.springBoot.backend.dto.SuperDto;
-import Final.springBoot.backend.dto.status.FieldStatus;
+import Final.springBoot.backend.dto.status.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.awt.*;
+
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class FieldDto implements FieldStatus {
+public class FieldDto  implements Status {
     private String fieldCode;
     private String fieldName;
     private int fieldLocation;
