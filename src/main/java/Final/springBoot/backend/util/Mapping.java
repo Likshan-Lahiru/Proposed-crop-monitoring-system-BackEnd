@@ -3,6 +3,7 @@ package Final.springBoot.backend.util;
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.dto.impl.StaffDto;
+import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.entity.impl.StaffEntity;
@@ -50,5 +51,9 @@ public class Mapping {
 
     public List<StaffDto> adStaffDtoList(List<StaffEntity> all) {
         return modelMapper.map(all, new TypeToken<List<StaffDto>>() {}.getType());
+    }
+
+    public StaffDto toStaffDto(StaffEntity staffEntity) {
+        return modelMapper.map(staffEntity, StaffDto.class);
     }
 }

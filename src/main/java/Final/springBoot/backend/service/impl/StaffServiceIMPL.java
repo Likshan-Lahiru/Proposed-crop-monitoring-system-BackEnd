@@ -1,11 +1,13 @@
 package Final.springBoot.backend.service.impl;
 
+import Final.springBoot.backend.customStatusCode.SelectedErrorStatus;
 import Final.springBoot.backend.dao.StaffDao;
 import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.composite.Address;
 import Final.springBoot.backend.entity.composite.Name;
 import Final.springBoot.backend.entity.impl.CropEntity;
+import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.entity.impl.StaffEntity;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.service.StaffService;
@@ -46,7 +48,13 @@ public class StaffServiceIMPL implements StaffService {
 
     @Override
     public Status getStaffById(String staffId) {
-        return null;
+        if (staffDao.existsById(staffId)) {
+            StaffEntity staffEntity = staffDao.getReferenceById(staffId);
+            
+            return mapping.toStaffDto(staffEntity);
+        }else {
+            return new SelectedErrorStatus(2,"user not found");
+        }
     }
 
     @Override

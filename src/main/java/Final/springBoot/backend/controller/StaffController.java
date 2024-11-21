@@ -1,6 +1,5 @@
 package Final.springBoot.backend.controller;
 
-import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.Gender;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -133,6 +131,11 @@ public class StaffController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StaffDto> getStaffList(){
         return staffService.getStaffList();
+    }
+
+    @GetMapping(value = "/{staffCode}")
+    public Status getCropById(@PathVariable("staffCode") String staffCode){
+        return staffService.getStaffById(staffCode);
     }
 
     private StaffDto assignValue(String staffId,
