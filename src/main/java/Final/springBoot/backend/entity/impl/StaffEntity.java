@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name = "staffTable")
 public class StaffEntity implements SuperEntity {
     @Id
-    private int staffId;
+    private String staffId;
     @Embedded
     private Name name;
     private JobRole staffDesignation;

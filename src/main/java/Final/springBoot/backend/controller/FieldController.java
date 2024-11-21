@@ -54,7 +54,7 @@ public class FieldController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{fieldCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> updateField(
-            @RequestPart("fieldCode") String fieldCode,
+            @PathVariable("fieldCode") String fieldCode,
             @RequestPart ("fieldName") String fieldName,
             @RequestPart ("fieldLocation") String fieldLocation,
             @RequestPart ("fieldSize") String fieldSize,
