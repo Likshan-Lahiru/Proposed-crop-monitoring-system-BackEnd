@@ -10,6 +10,7 @@ import Final.springBoot.backend.entity.impl.CropEntity;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.entity.impl.StaffEntity;
 import Final.springBoot.backend.exception.DataPersistException;
+import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.StaffService;
 import Final.springBoot.backend.util.Mapping;
 import jakarta.transaction.Transactional;
@@ -50,7 +51,7 @@ public class StaffServiceIMPL implements StaffService {
     public Status getStaffById(String staffId) {
         if (staffDao.existsById(staffId)) {
             StaffEntity staffEntity = staffDao.getReferenceById(staffId);
-            
+
             return mapping.toStaffDto(staffEntity);
         }else {
             return new SelectedErrorStatus(2,"user not found");
@@ -77,6 +78,10 @@ public class StaffServiceIMPL implements StaffService {
 
     @Override
     public void deleteStaff(String staffId) {
-
+        Optional<StaffEntity> byId = staffDao.findById(staffId);
+        if (!byId.isPresent()) {
+            throw new ItemNotFoundException("User with id " + staffId + " not found");
+        }
+        staffDao.deleteById(staffId);
     }
 }

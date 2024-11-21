@@ -5,6 +5,7 @@ import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.Gender;
 import Final.springBoot.backend.entity.JobRole;
 import Final.springBoot.backend.exception.DataPersistException;
+import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.StaffService;
 import Final.springBoot.backend.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -138,6 +138,19 @@ public class StaffController {
         return staffService.getStaffById(staffCode);
     }
 
+    @DeleteMapping(value = "/{staffCode}")
+    public ResponseEntity<Object> deleteStaff(@PathVariable("staffCode") String staffCode){
+        try {
+            staffService.deleteStaff(staffCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (ItemNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     private StaffDto assignValue(String staffId,
                                  String firstName,
                                  String lastName,
