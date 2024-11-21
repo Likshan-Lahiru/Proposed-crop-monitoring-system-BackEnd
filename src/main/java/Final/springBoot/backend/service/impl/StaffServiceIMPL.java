@@ -41,7 +41,7 @@ public class StaffServiceIMPL implements StaffService {
 
     @Override
     public List<StaffDto> getStaffList() {
-        return List.of();
+        return mapping.adStaffDtoList(staffDao.findAll());
     }
 
     @Override

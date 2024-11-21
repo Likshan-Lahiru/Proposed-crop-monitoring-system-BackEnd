@@ -1,5 +1,6 @@
 package Final.springBoot.backend.controller;
 
+import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.Gender;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/staff")
@@ -126,6 +128,11 @@ public class StaffController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<StaffDto> getStaffList(){
+        return staffService.getStaffList();
     }
 
     private StaffDto assignValue(String staffId,
