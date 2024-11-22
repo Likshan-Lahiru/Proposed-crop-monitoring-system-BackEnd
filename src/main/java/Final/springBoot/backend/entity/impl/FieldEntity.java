@@ -32,5 +32,7 @@ public class FieldEntity implements SuperEntity {
     @ManyToOne
     @JoinColumn(name = "logCodeField",nullable = false)
     private LogEntity logField;
+    @ManyToMany(mappedBy = "fieldEntity")
+    private List<StaffEntity> staffHave;
 
 }

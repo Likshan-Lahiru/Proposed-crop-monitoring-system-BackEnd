@@ -26,6 +26,7 @@ public class StaffEntity implements SuperEntity {
     private String staffId;
     @Embedded
     private Name name;
+    @Enumerated(EnumType.STRING)
     private JobRole staffDesignation;
 
     @Enumerated(EnumType.STRING)
@@ -42,11 +43,11 @@ public class StaffEntity implements SuperEntity {
     @Enumerated(EnumType.STRING)
     private JobRole jobRole;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "staffField",
             joinColumns = @JoinColumn(name = "staffId"),
-            inverseJoinColumns = @JoinColumn(name = "fieldCode")
+            inverseJoinColumns = @JoinColumn(name = "staffHave")
     )
     private List<FieldEntity> fieldEntity;
 
