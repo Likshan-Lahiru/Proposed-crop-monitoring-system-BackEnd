@@ -18,8 +18,8 @@ public class EquipmentEntity {
     private String equipmentStatus;
     @ManyToOne
     @JoinColumn(name = "staffId",nullable = false  )
-    private StaffEntity staffEntity;
+    private StaffEntity staffEquipment;
     @ManyToOne
     @JoinColumn(name = "fieldCode",nullable = false  )
-    private FieldEntity field;
+    private FieldEntity fieldEquipment;
 }

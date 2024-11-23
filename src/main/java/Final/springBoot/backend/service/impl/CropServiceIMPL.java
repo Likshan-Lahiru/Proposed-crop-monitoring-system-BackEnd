@@ -28,11 +28,7 @@ public class CropServiceIMPL implements CropService {
 
     @Override
     public void saveCrop(CropDto cropDto) {
-
-
-        CropEntity save = cropDao.save(mapping.toCropEntity(cropDto));
-
-        if ( save == null) {
+        if ( cropDao.save(mapping.toCropEntity(cropDto)) == null) {
             throw new DataPersistException();
         }
 

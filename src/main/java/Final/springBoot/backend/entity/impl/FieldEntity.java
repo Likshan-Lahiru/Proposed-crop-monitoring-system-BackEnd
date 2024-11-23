@@ -34,5 +34,7 @@ public class FieldEntity implements SuperEntity {
     private LogEntity logField;
     @ManyToMany(mappedBy = "fieldEntity")
     private List<StaffEntity> staffHave;
+    @OneToMany(mappedBy = "fieldEquipment")
+    private List<EquipmentEntity> equipmentEntities;
 
 }

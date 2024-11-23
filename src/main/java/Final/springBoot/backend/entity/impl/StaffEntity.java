@@ -54,6 +54,9 @@ public class StaffEntity implements SuperEntity {
     @OneToMany(mappedBy = "staffEntity")
     private List<VehicleEntity> vehicleEntity;
 
+    @OneToMany(mappedBy = "staffEquipment")
+    private List<EquipmentEntity> staffEquipment;
+
     @Column(columnDefinition = "LONGTEXT")
     private String image;
 

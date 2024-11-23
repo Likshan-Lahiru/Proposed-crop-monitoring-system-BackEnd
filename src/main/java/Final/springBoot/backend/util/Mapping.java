@@ -1,10 +1,12 @@
 package Final.springBoot.backend.util;
 
 import Final.springBoot.backend.dto.impl.CropDto;
+import Final.springBoot.backend.dto.impl.EquipmentDto;
 import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.impl.CropEntity;
+import Final.springBoot.backend.entity.impl.EquipmentEntity;
 import Final.springBoot.backend.entity.impl.FieldEntity;
 import Final.springBoot.backend.entity.impl.StaffEntity;
 import org.modelmapper.ModelMapper;
@@ -58,4 +60,16 @@ public class Mapping {
     }
 
 
+    public EquipmentEntity toEquipmentEntity(EquipmentDto equipmentDto) {
+        return modelMapper.map(equipmentDto, EquipmentEntity.class);
+
+    }
+
+    public List<EquipmentDto> asEquipmentDtoList(List<EquipmentEntity> all) {
+        return modelMapper.map(all, new TypeToken<List<EquipmentDto>>() {}.getType());
+    }
+
+    public EquipmentDto toEquipmentDto(EquipmentEntity equipmentEntity) {
+        return modelMapper.map(equipmentEntity, EquipmentDto.class);
+    }
 }

@@ -4,10 +4,12 @@ import Final.springBoot.backend.dto.status.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 public class EquipmentDto implements Status {
     private String equipmentId;
     private String equipmentName;
