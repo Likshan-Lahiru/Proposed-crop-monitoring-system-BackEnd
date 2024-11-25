@@ -30,7 +30,7 @@ public class FieldEntity implements SuperEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String image2;
     @ManyToOne
-    @JoinColumn(name = "logCodeField",nullable = false)
+    @JoinColumn(name = "logCodeField")
     private LogEntity logField;
     @ManyToMany(mappedBy = "fieldEntity")
     private List<StaffEntity> staffHave;

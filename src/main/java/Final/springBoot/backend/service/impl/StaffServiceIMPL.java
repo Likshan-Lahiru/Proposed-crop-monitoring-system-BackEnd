@@ -1,6 +1,7 @@
 package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.customStatusCode.SelectedErrorStatus;
+import Final.springBoot.backend.dao.LogDao;
 import Final.springBoot.backend.dao.StaffDao;
 import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.dto.status.Status;
@@ -31,6 +32,8 @@ public class StaffServiceIMPL implements StaffService {
     @Autowired
     private Mapping mapping;
 
+    @Autowired
+    private LogDao logDao;
 
 
     @Override
@@ -73,6 +76,7 @@ public class StaffServiceIMPL implements StaffService {
             byId.get().setEmail(staffDto.getEmail());
             byId.get().setJobRole(staffDto.getJobRole());
             byId.get().setImage(staffDto.getImage());
+            byId.get().setLog(logDao.getReferenceById(staffDto.getLogCode()));
         }
     }
 

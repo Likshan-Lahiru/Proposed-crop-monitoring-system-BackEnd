@@ -112,7 +112,7 @@ public class CropController {
         cropDto.setCropSeason(cropSeason);
         cropDto.setFieldCode(fieldCode);
         cropDto.setLogCode(logCode);
-        cropService.saveCrop(cropDto);
+
 
         return cropDto;
     }

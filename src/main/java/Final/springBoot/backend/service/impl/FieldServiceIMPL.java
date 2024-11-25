@@ -3,6 +3,7 @@ package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.customStatusCode.SelectedErrorStatus;
 import Final.springBoot.backend.dao.FieldDao;
+import Final.springBoot.backend.dao.LogDao;
 import Final.springBoot.backend.dto.impl.FieldDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.impl.FieldEntity;
@@ -24,6 +25,9 @@ public class FieldServiceIMPL implements FieldService {
     private FieldDao fieldDao;
 
     @Autowired
+    private LogDao logDao;
+
+    @Autowired
     private Mapping mapping;
 
     @Override
@@ -39,13 +43,13 @@ public class FieldServiceIMPL implements FieldService {
 
     @Override
     public List<FieldDto> getFieldList() {
-        return mapping.asFieldDtoList(fieldDao.findAll());
+            return mapping.asFieldDtoList(fieldDao.findAll());
     }
 
     @Override
     public Status getFieldById(String fieldId) {
         if (fieldDao.existsById(fieldId)) {
-            FieldEntity fieldEntity = fieldDao.getOne(fieldId);
+            FieldEntity fieldEntity = fieldDao.getReferenceById(fieldId);
             return mapping.toFieldDto(fieldEntity);
         }else {
             return new SelectedErrorStatus(2,"Field not found");
@@ -61,6 +65,7 @@ public class FieldServiceIMPL implements FieldService {
             byId.get().setFieldSize(FieldDto.getFieldSize());
             byId.get().setImage1(FieldDto.getImage1());
             byId.get().setImage2(FieldDto.getImage2());
+            byId.get().setLogField(logDao.getReferenceById(FieldDto.getLogCode()));
         }
     }
 

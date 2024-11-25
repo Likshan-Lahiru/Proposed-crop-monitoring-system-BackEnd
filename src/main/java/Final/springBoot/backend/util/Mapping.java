@@ -1,14 +1,8 @@
 package Final.springBoot.backend.util;
 
-import Final.springBoot.backend.dto.impl.CropDto;
-import Final.springBoot.backend.dto.impl.EquipmentDto;
-import Final.springBoot.backend.dto.impl.FieldDto;
-import Final.springBoot.backend.dto.impl.StaffDto;
+import Final.springBoot.backend.dto.impl.*;
 import Final.springBoot.backend.dto.status.Status;
-import Final.springBoot.backend.entity.impl.CropEntity;
-import Final.springBoot.backend.entity.impl.EquipmentEntity;
-import Final.springBoot.backend.entity.impl.FieldEntity;
-import Final.springBoot.backend.entity.impl.StaffEntity;
+import Final.springBoot.backend.entity.impl.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +65,17 @@ public class Mapping {
 
     public EquipmentDto toEquipmentDto(EquipmentEntity equipmentEntity) {
         return modelMapper.map(equipmentEntity, EquipmentDto.class);
+    }
+
+    public LogEntity toLogEntity(LogDto logDto) {
+        return modelMapper.map(logDto, LogEntity.class);
+    }
+
+    public List<LogDto> asLogDtoList(List<LogEntity> all) {
+        return modelMapper.map(all, new TypeToken<List<LogDto>>() {}.getType());
+    }
+
+    public Status toLogDto(LogEntity logEntity) {
+        return modelMapper.map(logEntity, LogDto.class);
     }
 }

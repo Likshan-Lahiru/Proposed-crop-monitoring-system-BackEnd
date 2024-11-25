@@ -1,20 +1,20 @@
 package Final.springBoot.backend.dto.impl;
 
-import Final.springBoot.backend.dto.SuperDto;
+
+import Final.springBoot.backend.dto.status.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class LogDto implements SuperDto {
+public class LogDto implements Status {
     private String logCode;
-    private Date logdate;
+    private String logDate;
     private String LogDetails;
-    private Long ObservedImage;
+    private String ObservedImage;
     private List<FieldDto> fieldCode;
     private List<CropDto> cropCode;
     private List<StaffDto> staffId;

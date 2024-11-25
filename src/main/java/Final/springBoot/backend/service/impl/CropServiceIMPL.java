@@ -2,6 +2,8 @@ package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.customStatusCode.SelectedErrorStatus;
 import Final.springBoot.backend.dao.CropDao;
+import Final.springBoot.backend.dao.FieldDao;
+import Final.springBoot.backend.dao.LogDao;
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.impl.CropEntity;
@@ -25,6 +27,12 @@ public class CropServiceIMPL implements CropService {
 
     @Autowired
     private Mapping mapping;
+
+    @Autowired
+    private LogDao logDao;
+
+    @Autowired
+    private FieldDao fieldDao;
 
     @Override
     public void saveCrop(CropDto cropDto) {
@@ -58,6 +66,8 @@ public class CropServiceIMPL implements CropService {
             byId.get().setCropImage(cropDto.getCropImage());
             byId.get().setCropScientificName(cropDto.getCropScientificName());
             byId.get().setCropSeason(cropDto.getCropSeason());
+            byId.get().setField(fieldDao.getReferenceById(cropDto.getFieldCode()));
+            byId.get().setLog(logDao.getReferenceById(cropDto.getLogCode()));
         }
     }
 

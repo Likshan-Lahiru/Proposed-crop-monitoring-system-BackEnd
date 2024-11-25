@@ -2,6 +2,8 @@ package Final.springBoot.backend.service.impl;
 
 import Final.springBoot.backend.customStatusCode.SelectedErrorStatus;
 import Final.springBoot.backend.dao.EquipmentDao;
+import Final.springBoot.backend.dao.FieldDao;
+import Final.springBoot.backend.dao.StaffDao;
 import Final.springBoot.backend.dto.impl.EquipmentDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.impl.CropEntity;
@@ -26,6 +28,12 @@ public class EquipmentServiceIMPL implements EquipmentService {
 
     @Autowired
     private EquipmentDao equipmentDao;
+
+    @Autowired
+    private StaffDao staffDao;
+
+    @Autowired
+    private FieldDao fieldDao;
 
     @Override
     public void saveEquipment(EquipmentDto equipmentDto) {
@@ -59,6 +67,8 @@ public class EquipmentServiceIMPL implements EquipmentService {
             byId.get().setEquipmentName(equipmentDto.getEquipmentName());
             byId.get().setEquipmentType(equipmentDto.getEquipmentType());
             byId.get().setEquipmentStatus(equipmentDto.getEquipmentStatus());
+            byId.get().setStaffEquipment(staffDao.getReferenceById(equipmentDto.getStaffId()));
+            byId.get().setFieldEquipment(fieldDao.getReferenceById(equipmentDto.getFieldCode()));
 
         }
 
