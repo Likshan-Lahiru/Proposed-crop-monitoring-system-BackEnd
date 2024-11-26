@@ -78,4 +78,16 @@ public class Mapping {
     public Status toLogDto(LogEntity logEntity) {
         return modelMapper.map(logEntity, LogDto.class);
     }
+
+    public VehicleEntity toVehicleEntity(VehicleDto vehicleDto) {
+        return modelMapper.map(vehicleDto, VehicleEntity.class);
+    }
+
+    public List<VehicleDto> asVehicleDtoList(List<VehicleEntity> all) {
+        return modelMapper.map(all, new TypeToken<List<VehicleDto>>() {}.getType());
+    }
+
+    public VehicleDto toVehicleDto(VehicleEntity vehicleEntity) {
+        return modelMapper.map(vehicleEntity, VehicleDto.class);
+    }
 }
