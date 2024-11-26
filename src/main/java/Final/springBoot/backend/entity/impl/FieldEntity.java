@@ -23,8 +23,6 @@ public class FieldEntity implements SuperEntity {
     private Double fieldSize;
     @OneToMany(mappedBy = "field")
     private List<CropEntity> cropId;
-    /*@OneToMany(mappedBy = "staff")
-    private List<StaffEntity> staffField;*/
     @Column(columnDefinition = "LONGTEXT")
     private String image1;
     @Column(columnDefinition = "LONGTEXT")

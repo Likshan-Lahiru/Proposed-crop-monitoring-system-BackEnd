@@ -2,6 +2,7 @@ package Final.springBoot.backend.service;
 
 import Final.springBoot.backend.dto.impl.UserDto;
 import Final.springBoot.backend.dto.status.Status;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface UserService {
     Status getUserById(String userId);
     void updateUser(String userId, UserDto userDto);
     void deleteUser(String userId);
+
+    UserDetailsService userDetailsService();
 }

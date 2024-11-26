@@ -90,4 +90,16 @@ public class Mapping {
     public VehicleDto toVehicleDto(VehicleEntity vehicleEntity) {
         return modelMapper.map(vehicleEntity, VehicleDto.class);
     }
+
+    public UserEntity toUserEntity(UserDto userDTO) {
+        return modelMapper.map(userDTO, UserEntity.class);
+    }
+
+    public List<UserDto> asUserDTOList(List<UserEntity> allUsers) {
+        return modelMapper.map(allUsers, new TypeToken<List<UserDto>>() {}.getType());
+    }
+
+    public Status toUserDTO(UserEntity selectedUser) {
+        return modelMapper.map(selectedUser, Status.class);
+    }
 }
