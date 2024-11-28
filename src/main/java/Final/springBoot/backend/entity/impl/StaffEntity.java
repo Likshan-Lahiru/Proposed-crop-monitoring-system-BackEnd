@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,13 +44,29 @@ public class StaffEntity implements SuperEntity {
     @Enumerated(EnumType.STRING)
     private JobRole jobRole;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    /*@ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "staffField",
             joinColumns = @JoinColumn(name = "staffId"),
             inverseJoinColumns = @JoinColumn(name = "staffHave")
     )
-    private List<FieldEntity> fieldEntity;
+    private List<FieldEntity> fieldEntity;*/
+
+/*    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "staff_field",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "field_id")
+    )
+    private List<FieldEntity> fieldEntity = new ArrayList<>();*/
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "staff_field",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "field_id")
+    )
+    private List<FieldEntity> fieldsAssigned = new ArrayList<>();
 
     @OneToMany(mappedBy = "staffEntity")
     private List<VehicleEntity> vehicleEntity;

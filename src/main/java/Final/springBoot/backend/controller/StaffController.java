@@ -12,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -27,7 +30,8 @@ public class StaffController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveStaff(
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
+    public ResponseEntity<String> saveStaff(
             @RequestPart("staffId") String staffId,
             @RequestPart("firstName") String firstName,
             @RequestPart("lastName") String lastName,
@@ -44,41 +48,38 @@ public class StaffController {
             @RequestPart("email") String email,
             @RequestPart("jobRole") String jobRole,
             @RequestPart("image") MultipartFile image,
-            @RequestPart("logCode") String logCode
-    ) {
+            @RequestPart("logCode") String logCode,
+            @RequestPart("fieldIds") String fieldIdsString
 
+            ) {
+
+        StaffDto staffDto = null;
         try {
-            staffService.saveStaff(assignValue(
-                    staffId,
-                    firstName,
-                    lastName,
-                    staffDesignation,
-                    gender,
-                    joinedDate,
-                    DOB,
-                    AddressLine01,
-                    AddressLine02,
-                    AddressLine03,
-                    AddressLine04,
-                    AddressLine05,
-                    contact,
-                    email,
-                    jobRole,
-                    image,
-                    logCode));
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            List<String> fieldIds = Arrays.asList(fieldIdsString.split(","));
+            staffDto = assignValue(
+                    staffId, firstName, lastName, staffDesignation, gender, joinedDate, DOB,
+                    AddressLine01, AddressLine02, AddressLine03, AddressLine04, AddressLine05,
+                    contact, email, jobRole, image, logCode, fieldIds
+            );
+
+            staffService.saveStaff(staffDto);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Staff saved successfully." + "fields Ids:" + staffDto.getFields());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (DataPersistException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body("Failed to save staff data." );
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred."+ staffDto.getFields());
         }
-
-
     }
 
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
     @PutMapping(value = "/{staffCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Status> updateStaff(
             @PathVariable("staffCode") String staffId,
@@ -97,7 +98,9 @@ public class StaffController {
             @RequestPart("email") String email,
             @RequestPart("jobRole") String jobRole,
             @RequestPart("image") MultipartFile image,
-            @RequestPart("logCode") String logCode
+            @RequestPart("logCode") String logCode,
+            @RequestPart("fieldIds") List<String> fieldIds
+
     ){
         try {
             staffService.updateStaff(staffId,assignValue(
@@ -117,7 +120,11 @@ public class StaffController {
                     email,
                     jobRole,
                     image,
-                    logCode));
+                    logCode,
+                    fieldIds
+
+
+                    ));
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
             e.printStackTrace();
@@ -129,16 +136,19 @@ public class StaffController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
     public List<StaffDto> getStaffList(){
         return staffService.getStaffList();
     }
 
     @GetMapping(value = "/{staffCode}")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
     public Status getCropById(@PathVariable("staffCode") String staffCode){
         return staffService.getStaffById(staffCode);
     }
 
     @DeleteMapping(value = "/{staffCode}")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
     public ResponseEntity<Object> deleteStaff(@PathVariable("staffCode") String staffCode){
         try {
             staffService.deleteStaff(staffCode);
@@ -151,40 +161,57 @@ public class StaffController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    private StaffDto assignValue(String staffId,
-                                 String firstName,
-                                 String lastName,
-                                 String staffDesignation,
-                                 String gender,
-                                 String joinedDate,
-                                 String dob,
-                                 String addressLine01,
-                                 String addressLine02,
-                                 String addressLine03,
-                                 String addressLine04,
-                                 String addressLine05,
-                                 String contact,
-                                 String email, String jobRole, MultipartFile image, String logCode) throws IOException {
+    private StaffDto assignValue(String staffId, String firstName, String lastName,
+                                 String staffDesignation, String gender, String joinedDate,
+                                 String dob, String addressLine01, String addressLine02,
+                                 String addressLine03, String addressLine04, String addressLine05,
+                                 String contact, String email, String jobRole,
+                                 MultipartFile image, String logCode,List<String> fieldIds) throws IOException {
+
         StaffDto staffDto = new StaffDto();
         staffDto.setStaffId(staffId);
         staffDto.setFirstName(firstName);
         staffDto.setLastName(lastName);
-        staffDto.setStaffDesignation(JobRole.valueOf(staffDesignation));
-        staffDto.setGender(Gender.valueOf(gender));
+
+
+        staffDto.setStaffDesignation(JobRole.valueOf(staffDesignation.toUpperCase()));
+        staffDto.setGender(Gender.valueOf(gender.toUpperCase()));
+        staffDto.setJobRole(JobRole.valueOf(jobRole.toUpperCase()));
+
+
         staffDto.setJoinedDate(joinedDate);
         staffDto.setDOB(dob);
+
         staffDto.setAddressLine01(addressLine01);
         staffDto.setAddressLine02(addressLine02);
         staffDto.setAddressLine03(addressLine03);
         staffDto.setAddressLine04(addressLine04);
         staffDto.setAddressLine05(addressLine05);
+
+
         staffDto.setContact(contact);
         staffDto.setEmail(email);
-        staffDto.setJobRole(JobRole.valueOf(jobRole));
-        staffDto.setImage(AppUtil.convertImage(image));
+
+
+        if (image != null && !image.isEmpty()) {
+            staffDto.setImage(AppUtil.convertImage(image));
+        }
+
+
+
+       // List<String> fields = new ArrayList<>();
+        /*fields.add("F001");
+        fields.add("F002");*/
+       // fields.add("F003");
+        //fields.add("F006");
+
+        staffDto.setFields(fieldIds);
         staffDto.setLogCode(logCode);
+
+
         return staffDto;
     }
+
 
 
 }

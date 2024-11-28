@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.mapping.Set;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -30,8 +31,11 @@ public class FieldEntity implements SuperEntity {
     @ManyToOne
     @JoinColumn(name = "logCodeField")
     private LogEntity logField;
-    @ManyToMany(mappedBy = "fieldEntity")
-    private List<StaffEntity> staffHave;
+/*    @ManyToMany(mappedBy = "fieldEntity", cascade = CascadeType.PERSIST)
+    private List<StaffEntity> staffHave = new ArrayList<>();*/
+
+    @ManyToMany(mappedBy = "fieldsAssigned", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<StaffEntity> staffAssigned = new ArrayList<>();
     @OneToMany(mappedBy = "fieldEquipment")
     private List<EquipmentEntity> equipmentEntities;
 

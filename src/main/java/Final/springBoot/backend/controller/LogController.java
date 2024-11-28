@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class LogController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Void> saveLog(
             @RequestPart("logCode") String logCode,
             @RequestPart ("date") String date,
@@ -48,6 +50,7 @@ public class LogController {
     }
 
     @PutMapping(value = "/{logId}")
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Void> updateLog(
             @PathVariable ("logId") String logId,
             @RequestPart ("date") String date,
@@ -70,16 +73,19 @@ public class LogController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public List<LogDto> getALlDto(){
         return logService.getLogList();
     }
 
     @GetMapping(value = "/{logId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public Status getSelectedLog(@PathVariable ("logId") String logId){
         return logService.getLogById(logId);
     }
 
     @DeleteMapping(value = "/{logId}")
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Object> deleteEquipment(@PathVariable("logId") String logId){
         try {
             logService.deleteLog(logId);

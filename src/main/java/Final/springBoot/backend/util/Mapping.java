@@ -102,4 +102,7 @@ public class Mapping {
     public Status toUserDTO(UserEntity selectedUser) {
         return modelMapper.map(selectedUser, Status.class);
     }
+
+
+
 }

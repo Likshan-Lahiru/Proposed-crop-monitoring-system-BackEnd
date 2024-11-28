@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,7 @@ public class CropController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Void> saveCrop(
             @RequestPart("cropCode") String cropCode,
             @RequestPart ("cropCommonName") String cropCommonName,
@@ -56,6 +58,7 @@ public class CropController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{cropCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Void> updateCrop(
             @PathVariable("cropCode") String cropCode,
             @RequestPart ("cropCommonName") String cropCommonName,
@@ -79,16 +82,19 @@ public class CropController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public List<CropDto> getCropList(){
         return cropService.getCropList();
     }
 
     @GetMapping(value = "/{cropCode}")
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public Status getCropById(@PathVariable("cropCode") String cropCode){
        return cropService.getCropById(cropCode);
     }
 
     @DeleteMapping(value = "/{cropCode}")
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Object> deleteCrop(@PathVariable("cropCode") String cropCode){
         try {
             cropService.deleteCrop(cropCode);

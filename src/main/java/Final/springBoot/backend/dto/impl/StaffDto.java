@@ -30,7 +30,7 @@ public class StaffDto implements Status {
     private String contact;
     private String email;
     private JobRole jobRole;
-    private List<FieldDto> fields;
+    private List<String> fields;
     private List<VehicleDto> vehicles;
     private String image;
     private String logCode;

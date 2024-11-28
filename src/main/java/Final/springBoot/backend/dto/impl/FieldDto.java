@@ -15,9 +15,10 @@ public class FieldDto  implements Status {
     private String fieldName;
     private int fieldLocation;
     private Double fieldSize;
-    private List<CropDto> crops;
-    private List<StaffDto> staffField;
+    private List<String> crops;
+    private List<String> staffField;
     private String image1;
     private String image2;
     private String logCode;
+
 }
