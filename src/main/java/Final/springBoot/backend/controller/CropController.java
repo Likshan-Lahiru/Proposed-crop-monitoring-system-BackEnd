@@ -123,6 +123,11 @@ public class CropController {
         return cropDto;
     }
 
+    @GetMapping("/genCropID")
+    public String generateCustomerId(){
+        return cropService.generateCropID();
+    }
+
 
 
 }

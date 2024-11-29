@@ -104,9 +104,13 @@ public class StaffController {
             @RequestPart("jobRole") String jobRole,
             @RequestPart("image") MultipartFile image,
             @RequestPart("logCode") String logCode,
-            @RequestPart("fieldIds") List<String> fieldIds
+            @RequestPart("fieldIds") String staffIdsString
 
     ){
+        List<String> staffIds = Arrays.asList(staffIdsString.split(","));
+        if ("NoAssign".equals(staffIds.get(0))) {
+            staffIds = new ArrayList<>();
+        }
         try {
             staffService.updateStaff(staffId,assignValue(
                     staffId,
@@ -126,7 +130,7 @@ public class StaffController {
                     jobRole,
                     image,
                     logCode,
-                    fieldIds
+                    staffIds
 
 
                     ));

@@ -11,6 +11,9 @@ import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.CropService;
 import Final.springBoot.backend.util.Mapping;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,9 @@ import java.util.Optional;
 @Service
 @Transactional
 public class CropServiceIMPL implements CropService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private CropDao cropDao;
@@ -81,6 +87,25 @@ public class CropServiceIMPL implements CropService {
             cropDao.deleteById(cropId);
 
 
+        }
+    }
+
+    @Override
+    public String generateCropID() {
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT c.cropCode FROM CropEntity c ORDER BY c.cropCode DESC", String.class);
+        query.setMaxResults(1);
+
+
+        String lastCropId = query.getResultStream().findFirst().orElse(null);
+
+        if (lastCropId != null) {
+
+            int generatedCropId = Integer.parseInt(lastCropId.replace("C00-", "")) + 1;
+            return String.format("C00-%03d", generatedCropId);
+        } else {
+
+            return "C00-001";
         }
     }
 }
