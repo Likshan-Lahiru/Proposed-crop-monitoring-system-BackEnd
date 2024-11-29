@@ -109,4 +109,9 @@ public class LogController {
         return logDto1;
     }
 
+    @GetMapping("/genLogID")
+    public String generateLogId(){
+        return logService.generateLogID();
+    }
+
 }

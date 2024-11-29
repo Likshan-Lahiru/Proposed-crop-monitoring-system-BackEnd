@@ -11,4 +11,5 @@ public interface LogService {
     Status getLogById(String logId);
     void updateLog(String logId, LogDto logDto);
     void deleteLog(String logId);
+    String generateLogID();
 }

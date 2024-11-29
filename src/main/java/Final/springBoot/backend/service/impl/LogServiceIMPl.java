@@ -11,6 +11,9 @@ import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.LogService;
 import Final.springBoot.backend.util.Mapping;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,11 @@ public class LogServiceIMPl implements LogService {
 
     @Autowired
     private Mapping mapping;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
 
     @Override
     public void saveLog(LogDto logDto) {
@@ -70,5 +78,24 @@ public class LogServiceIMPl implements LogService {
             throw new ItemNotFoundException("User with id " + logId + " not found");
         }
         logDao.deleteById(logId);
+    }
+
+    @Override
+    public String generateLogID() {
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT c.logCode FROM LogEntity c ORDER BY c.logCode DESC", String.class);
+        query.setMaxResults(1);
+
+
+        String lastFieldId = query.getResultStream().findFirst().orElse(null);
+
+        if (lastFieldId != null) {
+
+            int generatedFieldId = Integer.parseInt(lastFieldId.replace("L00-", "")) + 1;
+            return String.format("L00-%03d", generatedFieldId);
+        } else {
+
+            return "L00-001";
+        }
     }
 }
