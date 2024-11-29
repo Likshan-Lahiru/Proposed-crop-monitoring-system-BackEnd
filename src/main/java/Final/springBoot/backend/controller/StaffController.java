@@ -3,6 +3,7 @@ package Final.springBoot.backend.controller;
 import Final.springBoot.backend.dto.impl.StaffDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.Gender;
+import Final.springBoot.backend.entity.JobDesignation;
 import Final.springBoot.backend.entity.JobRole;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
@@ -49,17 +50,21 @@ public class StaffController {
             @RequestPart("jobRole") String jobRole,
             @RequestPart("image") MultipartFile image,
             @RequestPart("logCode") String logCode,
-            @RequestPart("fieldIds") String fieldIdsString
+            @RequestPart("fieldIds") String staffIdsString
 
             ) {
+        List<String> staffIds = Arrays.asList(staffIdsString.split(","));
+        if ("NoAssign".equals(staffIds.get(0))) {
+            staffIds = new ArrayList<>();
+        }
 
         StaffDto staffDto = null;
         try {
-            List<String> fieldIds = Arrays.asList(fieldIdsString.split(","));
+
             staffDto = assignValue(
                     staffId, firstName, lastName, staffDesignation, gender, joinedDate, DOB,
                     AddressLine01, AddressLine02, AddressLine03, AddressLine04, AddressLine05,
-                    contact, email, jobRole, image, logCode, fieldIds
+                    contact, email, jobRole, image, logCode, staffIds
             );
 
             staffService.saveStaff(staffDto);
@@ -70,10 +75,10 @@ public class StaffController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (DataPersistException e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Failed to save staff data." );
+            return ResponseEntity.badRequest().body("Failed to save staff data.");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred."+ staffDto.getFields());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred." + staffDto.getFields());
         }
     }
 
@@ -174,7 +179,7 @@ public class StaffController {
         staffDto.setLastName(lastName);
 
 
-        staffDto.setStaffDesignation(JobRole.valueOf(staffDesignation.toUpperCase()));
+        staffDto.setStaffDesignation(JobDesignation.valueOf(staffDesignation));
         staffDto.setGender(Gender.valueOf(gender.toUpperCase()));
         staffDto.setJobRole(JobRole.valueOf(jobRole.toUpperCase()));
 

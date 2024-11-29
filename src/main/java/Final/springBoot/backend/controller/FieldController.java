@@ -41,7 +41,11 @@ public class FieldController {
     ){
 
         List<String> staffIds = Arrays.asList(staffIdsString.split(","));
+        if ("NoAssign".equals(staffIds.get(0))) {
+            staffIds = new ArrayList<>();
+        }
         try {
+
             fieldService.saveField(assignValue(fieldCode,fieldName,fieldLocation,fieldSize,image1,image2,logCode,staffIds));
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
@@ -72,6 +76,12 @@ public class FieldController {
             @RequestPart("staffIds") String staffIdsString
     ){
         List<String> staffIds = Arrays.asList(staffIdsString.split(","));
+        String first = staffIds.getFirst();
+        if (first=="NoAssign"){
+            staffIds.clear();
+        }
+
+
         try {
             fieldService.updateField(fieldCode,assignValue(fieldCode,fieldName,fieldLocation,fieldSize,image1,image2,logCode,staffIds));
             return new ResponseEntity<>(HttpStatus.CREATED);

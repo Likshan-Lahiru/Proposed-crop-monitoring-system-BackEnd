@@ -108,6 +108,9 @@ public class StaffServiceIMPL implements StaffService {
         for (FieldEntity field : staffEntity.getFieldsAssigned()) {
             fieldList.add(field.getFieldCode());
         }
+        if (fieldList.isEmpty()){
+            fieldList.add("No Assign Field IDS");
+        }
         staffDto.setFields(fieldList);
         return staffDto;
     }

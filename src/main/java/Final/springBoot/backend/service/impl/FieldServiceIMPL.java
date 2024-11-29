@@ -58,7 +58,7 @@ public class FieldServiceIMPL implements FieldService {
 
 
         for (String staffId : staffIds) {
-            StaffEntity staffEntity = staffDao.findById(staffId).orElseThrow(() -> new ItemNotFoundException("Field not found: " + staffId));
+            StaffEntity staffEntity = staffDao.findById(staffId).orElseThrow(() -> new ItemNotFoundException("Staff not found: " + staffId));
             fieldToSave.getStaffAssigned().add(staffEntity);
             staffEntity.getFieldsAssigned().add(fieldToSave);
         }
@@ -105,6 +105,9 @@ public class FieldServiceIMPL implements FieldService {
         List<String> staffField = new ArrayList<>();
         for (StaffEntity staff : fieldEntity.getStaffAssigned()) {
             staffField.add(staff.getStaffId());
+        }
+        if (staffField.isEmpty()) {
+            staffField.add("No Assign staff Ids");
         }
         fieldDto.setStaffField(staffField);
 

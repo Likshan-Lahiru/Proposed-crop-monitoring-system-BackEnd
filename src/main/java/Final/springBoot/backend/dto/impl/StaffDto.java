@@ -2,6 +2,7 @@ package Final.springBoot.backend.dto.impl;
 
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.entity.Gender;
+import Final.springBoot.backend.entity.JobDesignation;
 import Final.springBoot.backend.entity.JobRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class StaffDto implements Status {
     private String staffId;
     private String firstName;
     private String lastName;
-    private JobRole staffDesignation;
+    private JobDesignation staffDesignation;
     private Gender gender;
     private String joinedDate;
     private String DOB;

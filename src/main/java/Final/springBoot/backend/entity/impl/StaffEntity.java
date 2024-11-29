@@ -1,17 +1,15 @@
 package Final.springBoot.backend.entity.impl;
 
 import Final.springBoot.backend.entity.Gender;
+import Final.springBoot.backend.entity.JobDesignation;
 import Final.springBoot.backend.entity.JobRole;
 import Final.springBoot.backend.entity.SuperEntity;
-
 import Final.springBoot.backend.entity.composite.Address;
 import Final.springBoot.backend.entity.composite.Name;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +26,7 @@ public class StaffEntity implements SuperEntity {
     @Embedded
     private Name name;
     @Enumerated(EnumType.STRING)
-    private JobRole staffDesignation;
+    private JobDesignation staffDesignation;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
