@@ -18,6 +18,9 @@ import Final.springBoot.backend.service.StaffService;
 import Final.springBoot.backend.util.Mapping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +46,9 @@ public class StaffServiceIMPL implements StaffService {
 
     @Autowired
     private FieldDao fieldDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     @Override
@@ -159,5 +165,24 @@ public class StaffServiceIMPL implements StaffService {
             throw new ItemNotFoundException("User with id " + staffId + " not found");
         }
         staffDao.deleteById(staffId);
+    }
+
+    @Override
+    public String generateStaffID() {
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT c.staffId FROM StaffEntity c ORDER BY c.staffId DESC", String.class);
+        query.setMaxResults(1);
+
+
+        String lastFieldId = query.getResultStream().findFirst().orElse(null);
+
+        if (lastFieldId != null) {
+
+            int generatedFieldId = Integer.parseInt(lastFieldId.replace("S00-", "")) + 1;
+            return String.format("S00-%03d", generatedFieldId);
+        } else {
+
+            return "S00-001";
+        }
     }
 }

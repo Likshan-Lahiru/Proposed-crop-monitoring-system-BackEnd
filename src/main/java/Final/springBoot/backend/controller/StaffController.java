@@ -206,14 +206,6 @@ public class StaffController {
             staffDto.setImage(AppUtil.convertImage(image));
         }
 
-
-
-       // List<String> fields = new ArrayList<>();
-        /*fields.add("F001");
-        fields.add("F002");*/
-       // fields.add("F003");
-        //fields.add("F006");
-
         staffDto.setFields(fieldIds);
         staffDto.setLogCode(logCode);
 
@@ -221,6 +213,10 @@ public class StaffController {
         return staffDto;
     }
 
+    @GetMapping("/genStaffID")
+    public String generateStaffId(){
+        return staffService.generateStaffID();
+    }
 
 
 }
