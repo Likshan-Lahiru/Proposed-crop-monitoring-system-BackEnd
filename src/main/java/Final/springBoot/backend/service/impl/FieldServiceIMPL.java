@@ -18,6 +18,9 @@ import Final.springBoot.backend.service.FieldService;
 import Final.springBoot.backend.util.Mapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +46,9 @@ public class FieldServiceIMPL implements FieldService {
 
     @Autowired
     private StaffDao staffDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
 
@@ -155,6 +161,27 @@ public class FieldServiceIMPL implements FieldService {
         }
         fieldDao.deleteById(fieldId);
 
+    }
+
+
+
+    @Override
+    public String generateFieldID() {
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT c.fieldCode FROM FieldEntity c ORDER BY c.fieldCode DESC", String.class);
+        query.setMaxResults(1);
+
+
+        String lastFieldId = query.getResultStream().findFirst().orElse(null);
+
+        if (lastFieldId != null) {
+
+            int generatedFieldId = Integer.parseInt(lastFieldId.replace("F00-", "")) + 1;
+            return String.format("F00-%03d", generatedFieldId);
+        } else {
+
+            return "F00-001";
+        }
     }
 
 

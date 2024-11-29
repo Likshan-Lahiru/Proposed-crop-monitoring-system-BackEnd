@@ -11,4 +11,5 @@ public interface FieldService {
     Status getFieldById(String fieldId) throws Exception;
     void updateField(String fieldId,FieldDto FieldDto);
     void deleteField(String fieldId);
+    String generateFieldID();
 }

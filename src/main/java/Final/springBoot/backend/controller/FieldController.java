@@ -136,6 +136,9 @@ public class FieldController {
         return fieldDto;
     }
 
-
+    @GetMapping("/genFieldID")
+    public String generateFieldId(){
+        return fieldService.generateFieldID();
+    }
 
 }
