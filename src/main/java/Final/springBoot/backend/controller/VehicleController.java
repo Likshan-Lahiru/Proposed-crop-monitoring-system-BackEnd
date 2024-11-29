@@ -86,5 +86,9 @@ public class VehicleController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/genVehicleID")
+    public String generateVehicleId(){
+        return vehicleService.generateVehicleID();
+    }
 
 }

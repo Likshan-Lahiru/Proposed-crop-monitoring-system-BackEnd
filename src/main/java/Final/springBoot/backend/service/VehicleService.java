@@ -11,4 +11,6 @@ public interface VehicleService {
     Status getVehicleById(String vehicleId);
     void updateVehicle(String vehicleId, VehicleDto vehicleDto);
     void deleteVehicle(String vehicleId);
+
+    String generateVehicleID();
 }

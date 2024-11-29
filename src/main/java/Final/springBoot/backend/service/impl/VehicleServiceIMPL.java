@@ -10,6 +10,9 @@ import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.VehicleService;
 import Final.springBoot.backend.util.Mapping;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,9 @@ public class VehicleServiceIMPL implements VehicleService {
 
     @Autowired
     private StaffDao staffDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void saveVehicle(VehicleDto vehicleDto) {
@@ -81,6 +87,25 @@ public class VehicleServiceIMPL implements VehicleService {
             vehicleDao.deleteById(vehicleId);
 
 
+        }
+    }
+
+    @Override
+    public String generateVehicleID() {
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT c.vehicleCode FROM VehicleEntity c ORDER BY c.vehicleCode DESC", String.class);
+        query.setMaxResults(1);
+
+
+        String lastFieldId = query.getResultStream().findFirst().orElse(null);
+
+        if (lastFieldId != null) {
+
+            int generatedFieldId = Integer.parseInt(lastFieldId.replace("V00-", "")) + 1;
+            return String.format("V00-%03d", generatedFieldId);
+        } else {
+
+            return "V00-001";
         }
     }
 }
