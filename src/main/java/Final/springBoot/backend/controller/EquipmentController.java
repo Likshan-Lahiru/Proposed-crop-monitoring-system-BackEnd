@@ -90,6 +90,10 @@ public class EquipmentController {
         }
     }
 
+    @GetMapping("/genEquipmentID")
+    public String generateIdEquipment(){
+        return equipmentService.generateEquipmentID();
+    }
 
 
 

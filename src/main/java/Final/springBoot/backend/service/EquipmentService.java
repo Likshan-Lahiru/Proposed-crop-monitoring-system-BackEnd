@@ -11,4 +11,5 @@ public interface EquipmentService {
     Status getEquipmentById(String cropId);
     void updateEquipment(String equipmentId, EquipmentDto equipmentDto);
     void deleteEquipment(String equipmentId);
+    String generateEquipmentID();
 }

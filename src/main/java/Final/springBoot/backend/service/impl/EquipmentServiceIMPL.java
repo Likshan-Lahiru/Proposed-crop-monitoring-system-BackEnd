@@ -12,6 +12,9 @@ import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.EquipmentService;
 import Final.springBoot.backend.util.Mapping;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +37,9 @@ public class EquipmentServiceIMPL implements EquipmentService {
 
     @Autowired
     private FieldDao fieldDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void saveEquipment(EquipmentDto equipmentDto) {
@@ -87,5 +93,24 @@ public class EquipmentServiceIMPL implements EquipmentService {
 
         }
 
+    }
+
+    @Override
+    public String generateEquipmentID() {
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT c.equipmentId FROM EquipmentEntity c ORDER BY c.equipmentId DESC", String.class);
+        query.setMaxResults(1);
+
+
+        String lastEquipmentId = query.getResultStream().findFirst().orElse(null);
+
+        if (lastEquipmentId != null) {
+
+            int generatedEquipmentId = Integer.parseInt(lastEquipmentId.replace("EQ00-", "")) + 1;
+            return String.format("EQ00-%03d", generatedEquipmentId);
+        } else {
+
+            return "EQ00-001";
+        }
     }
 }
