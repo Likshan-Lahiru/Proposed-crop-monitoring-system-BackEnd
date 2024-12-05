@@ -47,6 +47,7 @@ public class VehicleController {
 
         try {
 
+
             vehicleService.updateVehicle(equipmentId, vehicleDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){

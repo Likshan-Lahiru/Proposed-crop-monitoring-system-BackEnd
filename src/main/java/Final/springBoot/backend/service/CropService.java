@@ -12,4 +12,6 @@ public interface CropService {
     void updateCrop(String cropId, CropDto cropDto);
     void deleteCrop(String cropId);
     String generateCropID();
+    List<CropDto> getCropsByCategory(String category);
+
 }

@@ -1,13 +1,14 @@
 package Final.springBoot.backend.controller;
 
 
-import Final.springBoot.backend.dao.CropDao;
+
 import Final.springBoot.backend.dto.impl.CropDto;
 import Final.springBoot.backend.dto.status.Status;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.service.CropService;
 import Final.springBoot.backend.util.AppUtil;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("api/v1/crop")
@@ -39,7 +41,7 @@ public class CropController {
             @RequestPart ("fieldCode") String fieldCode,
             @RequestPart ("logCode") String logCode
     ){
-
+        System.out.print(cropCode+cropCommonName+cropScientificName+cropCategory+cropImage+cropSeason+fieldCode+logCode);
         try {
             cropService.saveCrop(assignValue(cropCode,cropCommonName,cropScientificName,cropCategory,cropImage,cropSeason,fieldCode,logCode));
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -54,8 +56,6 @@ public class CropController {
 
     }
 
-
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{cropCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
@@ -69,6 +69,7 @@ public class CropController {
             @RequestPart ("fieldCode") String fieldCode,
             @RequestPart ("logCode") String logCode
     ){
+        System.out.println("print crop code: "+cropCode);
         try {
             cropService.updateCrop(cropCode,assignValue(cropCode,cropCommonName,cropScientificName,cropCategory,cropImage,cropSeason,fieldCode,logCode));
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -80,16 +81,33 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping(value = "/category/{cropCategory}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
+    public ResponseEntity<List<CropDto>> getCropsByCategory(@PathVariable("cropCategory") String cropCategory) {
+        try {
+            List<CropDto> crops = cropService.getCropsByCategory(cropCategory);
+            return new ResponseEntity<>(crops, HttpStatus.OK);
+        } catch (ItemNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
+   @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public List<CropDto> getCropList(){
+        System.out.println("Calling getCropList");
         return cropService.getCropList();
     }
 
     @GetMapping(value = "/{cropCode}")
     @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public Status getCropById(@PathVariable("cropCode") String cropCode){
+        System.out.println("get crop id"+cropCode);
        return cropService.getCropById(cropCode);
     }
 

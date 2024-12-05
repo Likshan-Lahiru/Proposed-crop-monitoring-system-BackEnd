@@ -18,6 +18,7 @@ public class VehicleEntity {
     private String FuelType;
     private String vehicleStatus;
 
+
     @ManyToOne
     @JoinColumn(name = "staffId",nullable = false)
     private StaffEntity staffEntity;

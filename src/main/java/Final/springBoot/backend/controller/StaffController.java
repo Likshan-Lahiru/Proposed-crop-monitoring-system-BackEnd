@@ -69,7 +69,7 @@ public class StaffController {
 
             staffService.saveStaff(staffDto);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Staff saved successfully." + "fields Ids:" + staffDto.getFields());
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -184,6 +184,7 @@ public class StaffController {
 
 
         staffDto.setStaffDesignation(JobDesignation.valueOf(staffDesignation));
+        System.out.println("staffDesignation"+staffDesignation);
         staffDto.setGender(Gender.valueOf(gender.toUpperCase()));
         staffDto.setJobRole(JobRole.valueOf(jobRole.toUpperCase()));
 

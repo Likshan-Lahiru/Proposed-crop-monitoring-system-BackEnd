@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtConfigFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -46,6 +47,7 @@ public class SecurityConfig {
         DaoAuthenticationProvider dap = new DaoAuthenticationProvider();
         dap.setUserDetailsService(userService.userDetailsService());
         dap.setPasswordEncoder(passwordEncoder());
+
         return dap;
     }
 

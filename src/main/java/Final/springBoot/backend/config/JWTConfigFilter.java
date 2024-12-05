@@ -13,21 +13,25 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Configuration
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:63342/")
 public class JWTConfigFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
     private final UserService userService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String initToken = request.getHeader("Authorization");
+       // initToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX01BTkFHRVIifV0sInN1YiI6ImxhaGlydUBnbWFpbC5jb20iLCJpYXQiOjE3MzMwMTU0MTAsImV4cCI6MTczMzYxNTQxMH0.LKU-zeKTiFErhzwcEWwG4fWuDl24RDmddR74LNdAeos";
         String userEmail;
         String extractedJwtToken;
         //Validate the token
+        System.out.println("Insert filter chain :"+initToken);
         if(StringUtils.isEmpty(initToken) || !initToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;

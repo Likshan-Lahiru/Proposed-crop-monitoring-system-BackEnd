@@ -1,6 +1,6 @@
 package Final.springBoot.backend.controller;
 
-import Final.springBoot.backend.dto.impl.EquipmentDto;
+
 import Final.springBoot.backend.dto.impl.UserDto;
 import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.secure.JWTAuthResponse;
@@ -37,12 +37,15 @@ public class AuthUserController {
     }
 
 
-    @PostMapping(value = "signin",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/signIn",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<JWTAuthResponse> signIn(@RequestBody SignIn signIn){
+        System.out.println("test sign in end point");
         return ResponseEntity.ok(authService.signIn(signIn));
     }
     @PostMapping("refresh")
     public ResponseEntity<JWTAuthResponse> refreshToken(@RequestParam("existingToken") String existingToken) {
         return ResponseEntity.ok(authService.refreshToken(existingToken));
     }
+
+
 }

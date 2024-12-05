@@ -66,10 +66,10 @@ public class StaffEntity implements SuperEntity {
     )
     private List<FieldEntity> fieldsAssigned = new ArrayList<>();
 
-    @OneToMany(mappedBy = "staffEntity")
+    @OneToMany(mappedBy = "staffEntity", cascade = CascadeType.ALL)
     private List<VehicleEntity> vehicleEntity;
 
-    @OneToMany(mappedBy = "staffEquipment")
+    @OneToMany(mappedBy = "staffEquipment",cascade = CascadeType.ALL)
     private List<EquipmentEntity> staffEquipment;
 
     @Column(columnDefinition = "LONGTEXT")

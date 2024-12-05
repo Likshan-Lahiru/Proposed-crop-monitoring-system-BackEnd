@@ -40,6 +40,9 @@ public class CropServiceIMPL implements CropService {
     @Autowired
     private FieldDao fieldDao;
 
+
+
+
     @Override
     public void saveCrop(CropDto cropDto) {
         if ( cropDao.save(mapping.toCropEntity(cropDto)) == null) {
@@ -50,6 +53,7 @@ public class CropServiceIMPL implements CropService {
 
     @Override
     public List<CropDto> getCropList() {
+
         return mapping.asCropDtoList(cropDao.findAll());
     }
 
@@ -89,6 +93,15 @@ public class CropServiceIMPL implements CropService {
 
         }
     }
+    @Override
+    public List<CropDto> getCropsByCategory(String category) {
+        List<CropEntity> cropEntities = cropDao.findByCropCategory(category);
+        if (cropEntities.isEmpty()) {
+            throw new ItemNotFoundException("No crops found for category: " + category);
+        }
+        return mapping.asCropDtoList(cropEntities);
+    }
+
 
     @Override
     public String generateCropID() {

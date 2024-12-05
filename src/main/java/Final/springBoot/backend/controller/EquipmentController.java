@@ -6,6 +6,8 @@ import Final.springBoot.backend.exception.DataPersistException;
 import Final.springBoot.backend.exception.ItemNotFoundException;
 import Final.springBoot.backend.exception.NotFoundException;
 import Final.springBoot.backend.service.EquipmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,9 @@ public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
 
+
+    static Logger logger = LoggerFactory.getLogger(EquipmentController.class);
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
@@ -31,10 +36,10 @@ public class EquipmentController {
             equipmentService.saveEquipment(equipmentDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            e.printStackTrace();
+            logger.error("Faild with: ",e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Faild with: ",e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -50,10 +55,10 @@ public class EquipmentController {
             equipmentService.updateEquipment(equipmentId, equipmentDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            e.printStackTrace();
+            logger.error("Faild with: ",e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Faild with: ",e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -81,11 +86,11 @@ public class EquipmentController {
         try {
             equipmentService.deleteEquipment(equipmentCode);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (ItemNotFoundException e){
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (DataPersistException e){
+            logger.error("Faild with: ",e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Faild with: ",e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

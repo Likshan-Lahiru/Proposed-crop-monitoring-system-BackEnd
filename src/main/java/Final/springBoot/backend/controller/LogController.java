@@ -25,7 +25,7 @@ public class LogController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
+        @PreAuthorize("hasAnyRole('SCIENTIST','MANAGER')")
     public ResponseEntity<Void> saveLog(
             @RequestPart("logCode") String logCode,
             @RequestPart ("date") String date,

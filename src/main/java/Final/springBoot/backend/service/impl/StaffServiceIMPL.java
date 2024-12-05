@@ -68,9 +68,7 @@ public class StaffServiceIMPL implements StaffService {
             fieldEntity.getStaffAssigned().add(staffToSave);
         }
 
-        StaffEntity savedStaff = staffDao.save(staffToSave);
-
-        if (savedStaff == null) {
+        if (staffDao.save(staffToSave) == null) {
             throw new DataPersistException();
         }
     }
