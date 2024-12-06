@@ -31,15 +31,16 @@ public class EquipmentController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMINISTRATOR','MANAGER')")
     public ResponseEntity<Void> saveEquipment(@RequestBody EquipmentDto equipmentDto) {
-        System.out.println(equipmentDto);
+
         try {
+            System.out.println("equipmentDto........ :" + equipmentDto);
             equipmentService.saveEquipment(equipmentDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.error("Faild with: ",e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            logger.error("Faild with: ",e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -51,14 +52,14 @@ public class EquipmentController {
                                            @RequestBody EquipmentDto equipmentDto){
 
         try {
-
+            System.out.println("equipmentDto........ :" + equipmentDto);
             equipmentService.updateEquipment(equipmentId, equipmentDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.error("Faild with: ",e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            logger.error("Faild with: ",e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
